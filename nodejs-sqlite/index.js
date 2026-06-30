@@ -28,10 +28,20 @@ app.post('/history', (req, res) => {
         console.log('URL not found or missing')
         return res.status(400).json({ error: 'Needs a valid URL' })
     }
-    db.prepare('INSTER INTO history (url) VALUES (?)').run(url)
 
-    console.log('Inserted new id', info.lastInsertRowId)
+    db.prepare('INSERT INTO history (url) VALUES (?)').run(url)
+
+    res.send({});
 })
+
+
+
+
+
+
+
+
+
 
 //PUT
 app.put('/history', (req, res) => {
