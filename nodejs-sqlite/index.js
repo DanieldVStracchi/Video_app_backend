@@ -1,6 +1,3 @@
-import sqlite3 from "sqlite3";
-
-const db = new sqlite3.Database("my.db");
-
+const db = require('./database')
 console.log("Node.js + SQLite");
-
+console.log(db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all())
