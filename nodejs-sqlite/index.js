@@ -12,8 +12,8 @@ console.log("Node.js + SQLite");
 console.log(db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all())
 
 app.get('/history', (req, res) =>  {
-    console.log('GET history')
-    
+    console.log('HISTORY');
+    res.send('history')
 })
 
 app.post('/history', (req, res) => {
