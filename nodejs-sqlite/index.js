@@ -34,22 +34,10 @@ app.post('/history', (req, res) => {
     res.send({});
 })
 
-
-
-
-
-
-
-
-
-
 //PUT
-app.put('/history', (req, res) => {
-    console.log('PUT history' + req.params.id, req.body)
-
+app.put('/history/:id', (req, res) => {
     const id = req.params.id
     const url = req.body.url
-
     db.prepare('UPDATE history SET url = ? WHERE id = ?').run(url, id)
 
     const info = stmt.run(url, req.params.id)
@@ -59,13 +47,9 @@ app.put('/history', (req, res) => {
 
 
 //DELETE
-app.delete('/history', (req, res) => {
-    console.log('DELETE history' + req.params.id)
-
+app.delete('/history/:id', (req, res) => {
     const id = req.params.id
-
     db.prepare('DELETE FROM history WHERE id = ?')
-
     console.log('ROW DELETED')
     res.json({ message: 'DELETED' })
 
@@ -76,51 +60,35 @@ app.delete('/history', (req, res) => {
 //BOOKMARK
 //GET
 app.get('/bookmarks', (req, res) => {
-    console.log('GET bookmarks')
-
     const rows = db.prepare('SELECT * FROM bookmarks').all()
-
     console.log(rows)
     res.json(rows)
 })
 
 //POST
 app.post('/bookmarks', (req, res) => {
-    console.log('POST bookmarks'), req.body
-
     const url = req.body.url
-
     db.prepare('INSERT INTO bookmarks (url) VALUES (?)').run(url)
-
     console.log('SAVED INTO BOOKMARKS')
     res.json({ message: 'SAVED' })
 })
 
 //PUT
-app.put('/bookmarks', (req, res) => {
-    console.log('PUT bookmarks'), req.body
-
+app.put('/bookmarks/:id', (req, res) => {
     const id = req.params.id
     const url = req.body.url
-
     db.prepare('UPDATE bookmarks SET url = ? WHERE id = ?').run(url, id)
-
     console.log('UPDATING BOOKMARKS')
     res.json({ message: 'UPDATED' })
 })
 
 //DELETE
-app.delete('/bookmarks', (req, res) => {
-    console.log('DELETE bookmarks')
-
-    const id = req.params.id
-
-    db.prepare('DELETE FROM bookmarks WHERE id = ?').run(id)
-
-    console.log('DELETING FROM BOOKMARKS')
-    res.json({message: 'DELETED'})
+app.delete('/bookmarks/:id', (req, res) => {    //PARA ESPECIFICAR LA ID A BORRAR
+    const id = req.query.id
+    db.prepare('DELETE FROM bookmarks WHERE id = ?').run(url)
+    console.log('DELETING BOOKMARK')
+    res.json({ message: 'DELETED' })
 })
-
 
 
 app.listen(8000, () => console.log('Your server is runnning on port 8000'))
